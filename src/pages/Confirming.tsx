@@ -1,8 +1,12 @@
 import { useNavigate } from "react-router-dom";
 import AppShell from "@/components/AppShell";
+import useElevenLabsTTS from "@/hooks/useElevenLabsTTS";
+
+const CONFIRM_TEXT = "Got it! I'll process a payment of 3,200 yen for Kyoto Premium Matcha Kit via Digital Garage AppPay. Shall I confirm?";
 
 const Confirming = () => {
   const navigate = useNavigate();
+  useElevenLabsTTS(CONFIRM_TEXT);
 
   return (
     <AppShell>
