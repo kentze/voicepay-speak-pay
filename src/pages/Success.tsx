@@ -172,7 +172,7 @@ const Success = () => {
           >
             Return to store
           </button>
-          <button className="flex-1 py-3.5 rounded-full bg-primary text-primary-foreground font-semibold text-sm tracking-wide hover:brightness-110 active:scale-[0.97] transition-all cursor-pointer">
+          <button onClick={() => navigate("/receipt")} className="flex-1 py-3.5 rounded-full bg-primary text-primary-foreground font-semibold text-sm tracking-wide hover:brightness-110 active:scale-[0.97] transition-all cursor-pointer">
             View receipt
           </button>
         </div>
