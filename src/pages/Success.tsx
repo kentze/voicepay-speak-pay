@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useEffect, useRef } from "react";
+import AppShell from "@/components/AppShell";
 
 /* ---------- Confetti ---------- */
 const PARTICLE_COUNT = 60;
@@ -90,126 +91,101 @@ const Success = () => {
   useConfetti(canvasRef);
 
   const now = new Date();
-  const timestamp = now.toLocaleDateString("en-US", {
-    year: "numeric",
-    month: "short",
-    day: "numeric",
-  }) + ", " + now.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit" });
+  const timestamp =
+    now.toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" }) +
+    ", " +
+    now.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit" });
 
   return (
-    <div className="fixed inset-0 bg-background flex flex-col items-center justify-center px-6 z-50">
-      {/* Confetti canvas */}
-      <canvas
-        ref={canvasRef}
-        className="absolute inset-0 pointer-events-none"
-        style={{ width: "100%", height: "100%" }}
-      />
+    <AppShell>
+      <div className="relative flex flex-col items-center justify-center px-6 min-h-[calc(100vh-57px)] py-12">
+        {/* Confetti canvas */}
+        <canvas
+          ref={canvasRef}
+          className="fixed inset-0 pointer-events-none z-20"
+          style={{ width: "100%", height: "100%" }}
+        />
 
-      {/* Checkmark */}
-      <div
-        className="relative z-10 mb-8"
-        style={{ animation: "fade-up 0.6s cubic-bezier(0.16,1,0.3,1) both" }}
-      >
-        <svg width="80" height="80" viewBox="0 0 80 80" fill="none">
-          <circle
-            cx="40"
-            cy="40"
-            r="36"
-            stroke="hsl(150 50% 45%)"
-            strokeWidth="3"
-            fill="hsl(150 50% 45% / 0.08)"
-            strokeDasharray="226"
-            strokeDashoffset="226"
-            strokeLinecap="round"
-          >
-            <animate
-              attributeName="stroke-dashoffset"
-              from="226"
-              to="0"
-              dur="0.6s"
-              fill="freeze"
-              calcMode="spline"
-              keySplines="0.16 1 0.3 1"
-            />
-          </circle>
-          <path
-            d="M26 41 L35 50 L54 31"
-            stroke="hsl(150 50% 45%)"
-            strokeWidth="3.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            fill="none"
-            strokeDasharray="42"
-            strokeDashoffset="42"
-          >
-            <animate
-              attributeName="stroke-dashoffset"
-              from="42"
-              to="0"
-              dur="0.35s"
-              begin="0.45s"
-              fill="freeze"
-              calcMode="spline"
-              keySplines="0.16 1 0.3 1"
-            />
-          </path>
-        </svg>
-      </div>
-
-      {/* Headline */}
-      <h1
-        className="relative z-10 text-[28px] font-bold text-foreground tracking-tight mb-8"
-        style={{ animation: "fade-up 0.6s cubic-bezier(0.16,1,0.3,1) 0.25s both" }}
-      >
-        Payment confirmed!
-      </h1>
-
-      {/* Receipt card */}
-      <div
-        className="relative z-10 w-full max-w-sm rounded-2xl bg-card border border-border/60 p-6"
-        style={{ animation: "fade-up 0.6s cubic-bezier(0.16,1,0.3,1) 0.35s both" }}
-      >
-        {[
-          ["Product", "Kyoto Premium Matcha Kit"],
-          ["Amount", "¥3,200"],
-          ["Payment method", "Digital Garage AppPay"],
-          ["Transaction ID", "DG-2026-03847"],
-          ["Date", timestamp],
-        ].map(([label, value], i, arr) => (
-          <div
-            key={label}
-            className={`flex justify-between items-baseline py-3 ${i < arr.length - 1 ? "border-b border-border/30" : ""}`}
-          >
-            <span className="text-xs text-muted-foreground">{label}</span>
-            <span className="text-sm font-medium text-foreground tabular-nums">{value}</span>
-          </div>
-        ))}
-      </div>
-
-      {/* Buttons */}
-      <div
-        className="relative z-10 flex gap-3 w-full max-w-sm mt-8"
-        style={{ animation: "fade-up 0.6s cubic-bezier(0.16,1,0.3,1) 0.45s both" }}
-      >
-        <button
-          onClick={() => navigate("/demo")}
-          className="flex-1 py-3.5 rounded-full border border-border/60 text-muted-foreground font-medium text-sm hover:border-border hover:text-foreground active:scale-[0.97] transition-all cursor-pointer"
+        {/* Checkmark */}
+        <div
+          className="relative z-10 mb-8"
+          style={{ animation: "fade-up 0.6s cubic-bezier(0.16,1,0.3,1) both" }}
         >
-          Return to store
-        </button>
-        <button className="flex-1 py-3.5 rounded-full bg-primary text-primary-foreground font-semibold text-sm tracking-wide hover:brightness-110 active:scale-[0.97] transition-all cursor-pointer">
-          View receipt
-        </button>
-      </div>
+          <svg width="80" height="80" viewBox="0 0 80 80" fill="none">
+            <circle
+              cx="40" cy="40" r="36"
+              stroke="hsl(150 50% 45%)" strokeWidth="3"
+              fill="hsl(150 50% 45% / 0.08)"
+              strokeDasharray="226" strokeDashoffset="226" strokeLinecap="round"
+            >
+              <animate attributeName="stroke-dashoffset" from="226" to="0" dur="0.6s" fill="freeze" calcMode="spline" keySplines="0.16 1 0.3 1" />
+            </circle>
+            <path
+              d="M26 41 L35 50 L54 31"
+              stroke="hsl(150 50% 45%)" strokeWidth="3.5"
+              strokeLinecap="round" strokeLinejoin="round" fill="none"
+              strokeDasharray="42" strokeDashoffset="42"
+            >
+              <animate attributeName="stroke-dashoffset" from="42" to="0" dur="0.35s" begin="0.45s" fill="freeze" calcMode="spline" keySplines="0.16 1 0.3 1" />
+            </path>
+          </svg>
+        </div>
 
-      {/* Footer */}
-      <p
-        className="absolute bottom-10 z-10 text-[11px] text-muted-foreground/40 tracking-wide"
-        style={{ animation: "fade-in 0.8s ease-out 0.7s both" }}
-      >
-        Powered by Digital Garage
-      </p>
-    </div>
+        {/* Headline */}
+        <h1
+          className="relative z-10 text-2xl sm:text-[28px] font-bold text-foreground tracking-tight mb-8"
+          style={{ animation: "fade-up 0.6s cubic-bezier(0.16,1,0.3,1) 0.25s both" }}
+        >
+          Payment confirmed!
+        </h1>
+
+        {/* Receipt card */}
+        <div
+          className="relative z-10 w-full max-w-sm rounded-2xl bg-card border border-border/60 p-5 sm:p-6"
+          style={{ animation: "fade-up 0.6s cubic-bezier(0.16,1,0.3,1) 0.35s both" }}
+        >
+          {[
+            ["Product", "Kyoto Premium Matcha Kit"],
+            ["Amount", "¥3,200"],
+            ["Payment method", "Digital Garage AppPay"],
+            ["Transaction ID", "DG-2026-03847"],
+            ["Date", timestamp],
+          ].map(([label, value], i, arr) => (
+            <div
+              key={label}
+              className={`flex justify-between items-baseline py-3 gap-4 ${i < arr.length - 1 ? "border-b border-border/30" : ""}`}
+            >
+              <span className="text-xs text-muted-foreground shrink-0">{label}</span>
+              <span className="text-sm font-medium text-foreground tabular-nums text-right">{value}</span>
+            </div>
+          ))}
+        </div>
+
+        {/* Buttons */}
+        <div
+          className="relative z-10 flex flex-col sm:flex-row gap-3 w-full max-w-sm mt-8"
+          style={{ animation: "fade-up 0.6s cubic-bezier(0.16,1,0.3,1) 0.45s both" }}
+        >
+          <button
+            onClick={() => navigate("/demo")}
+            className="flex-1 py-3.5 rounded-full border border-border/60 text-muted-foreground font-medium text-sm hover:border-border hover:text-foreground active:scale-[0.97] transition-all cursor-pointer"
+          >
+            Return to store
+          </button>
+          <button className="flex-1 py-3.5 rounded-full bg-primary text-primary-foreground font-semibold text-sm tracking-wide hover:brightness-110 active:scale-[0.97] transition-all cursor-pointer">
+            View receipt
+          </button>
+        </div>
+
+        {/* Footer */}
+        <p
+          className="mt-12 z-10 text-[11px] text-muted-foreground/40 tracking-wide"
+          style={{ animation: "fade-in 0.8s ease-out 0.7s both" }}
+        >
+          Powered by Digital Garage
+        </p>
+      </div>
+    </AppShell>
   );
 };
 

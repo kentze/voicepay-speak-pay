@@ -1,22 +1,12 @@
 import { useNavigate } from "react-router-dom";
 import { Mic, ChevronRight } from "lucide-react";
+import AppShell from "@/components/AppShell";
 
 const Demo = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen bg-background">
-      {/* Nav */}
-      <nav className="flex items-center justify-between px-8 py-5 border-b border-border/30">
-        <span
-          className="text-base font-semibold tracking-tight text-foreground cursor-pointer"
-          onClick={() => navigate("/")}
-        >
-          VoicePay
-        </span>
-        <span className="text-xs text-muted-foreground">Store</span>
-      </nav>
-
+    <AppShell>
       <main className="max-w-3xl mx-auto px-6 py-10">
         {/* Breadcrumb */}
         <div
@@ -36,7 +26,6 @@ const Demo = () => {
         >
           {/* Product image placeholder */}
           <div className="aspect-square rounded-2xl bg-card border border-border/60 flex items-center justify-center relative overflow-hidden">
-            {/* Matcha accent shape */}
             <div className="absolute w-36 h-36 rounded-full bg-[hsl(150_40%_35%/0.12)] blur-2xl" />
             <div className="relative flex flex-col items-center gap-3">
               <div className="w-20 h-20 rounded-2xl bg-[hsl(150_40%_35%/0.15)] border border-[hsl(150_40%_45%/0.25)] flex items-center justify-center">
@@ -69,12 +58,14 @@ const Demo = () => {
               Free shipping · Ships within 2 days · Sold by Matcha Co.
             </p>
 
-            {/* Divider */}
             <div className="my-8 h-px bg-border/40" />
 
             {/* Pay by Voice */}
-            <button onClick={() => navigate("/listening")} className="w-full flex items-center justify-center gap-2.5 px-6 py-4 rounded-xl bg-primary text-primary-foreground font-semibold text-sm tracking-wide hover:brightness-110 active:scale-[0.97] transition-all box-glow cursor-pointer">
-              <Mic className="w-4.5 h-4.5" strokeWidth={2} />
+            <button
+              onClick={() => navigate("/listening")}
+              className="w-full flex items-center justify-center gap-2.5 px-6 py-4 rounded-xl bg-primary text-primary-foreground font-semibold text-sm tracking-wide hover:brightness-110 active:scale-[0.97] transition-all box-glow cursor-pointer"
+            >
+              <Mic className="w-5 h-5" strokeWidth={2} />
               Pay by Voice
             </button>
 
@@ -86,7 +77,7 @@ const Demo = () => {
           </div>
         </div>
       </main>
-    </div>
+    </AppShell>
   );
 };
 
