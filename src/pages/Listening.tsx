@@ -12,12 +12,15 @@ type IntentFlash = null | "cancel" | "payment";
 const CANCEL_KEYWORDS = [
   "cancel", "stop", "go back", "never mind",
   "no thanks", "abort", "quit", "exit",
+  "キャンセル", "やめる", "戻る", "いいえ", "やめて",
 ];
 
 const PAYMENT_KEYWORDS = [
   "pay", "purchase", "buy", "confirm",
   "checkout", "proceed", "yes", "sure", "ok", "go ahead",
   "digital garage", "matcha",
+  "支払う", "購入", "確認", "はい", "お願い", "マッチャ",
+  "デジタルガレージ", "いいです", "よろしく",
 ];
 
 const Listening = () => {
