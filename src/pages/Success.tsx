@@ -1,6 +1,9 @@
 import { useNavigate } from "react-router-dom";
 import { useEffect, useRef } from "react";
 import AppShell from "@/components/AppShell";
+import useElevenLabsTTS from "@/hooks/useElevenLabsTTS";
+
+const SUCCESS_TEXT = "Payment confirmed! Your Kyoto Premium Matcha Kit will arrive within 2 days. Thank you for using VoicePay.";
 
 /* ---------- Confetti ---------- */
 const PARTICLE_COUNT = 60;
@@ -89,6 +92,7 @@ const Success = () => {
   const navigate = useNavigate();
   const canvasRef = useRef<HTMLCanvasElement>(null);
   useConfetti(canvasRef);
+  useElevenLabsTTS(SUCCESS_TEXT);
 
   const now = new Date();
   const timestamp =
