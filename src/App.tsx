@@ -26,7 +26,8 @@ const AnimatedRoutes = () => {
         <Route path="/listening" element={<Listening />} />
         <Route path="/confirming" element={<Confirming />} />
         <Route path="/processing" element={<Processing />} />
-        <Route path="/success" element={<Success />} />
+          <Route path="/success" element={<Success />} />
+          <Route path="/receipt" element={<Receipt />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </PageTransition>
