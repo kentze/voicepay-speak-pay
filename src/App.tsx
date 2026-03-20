@@ -8,6 +8,7 @@ import NotFound from "./pages/NotFound.tsx";
 import Demo from "./pages/Demo.tsx";
 import Listening from "./pages/Listening.tsx";
 import Confirming from "./pages/Confirming.tsx";
+import Processing from "./pages/Processing.tsx";
 
 const queryClient = new QueryClient();
 
