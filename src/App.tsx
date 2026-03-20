@@ -9,6 +9,7 @@ import Demo from "./pages/Demo.tsx";
 import Listening from "./pages/Listening.tsx";
 import Confirming from "./pages/Confirming.tsx";
 import Processing from "./pages/Processing.tsx";
+import Success from "./pages/Success.tsx";
 
 const queryClient = new QueryClient();
 
@@ -24,6 +25,7 @@ const App = () => (
           <Route path="/listening" element={<Listening />} />
           <Route path="/confirming" element={<Confirming />} />
           <Route path="/processing" element={<Processing />} />
+          <Route path="/success" element={<Success />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
