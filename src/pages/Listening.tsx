@@ -202,6 +202,14 @@ const Listening = () => {
         ) : (
           <>
             <div className="relative flex items-center justify-center mb-14">
+              {/* Language badge */}
+              <div
+                className="absolute -top-4 -right-4 z-20 px-2.5 py-0.5 rounded-full bg-primary text-white text-xs font-semibold tracking-wide"
+                style={{ fontSize: "12px", animation: "fade-in 0.8s ease-out 0.3s both" }}
+              >
+                {detectedLanguage}
+              </div>
+
               {!intentFlash &&
                 [0, 1, 2].map((i) => (
                   <div
