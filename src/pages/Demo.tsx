@@ -73,7 +73,7 @@ const Demo = () => {
             <div className="my-8 h-px bg-border/40" />
 
             {/* Pay by Voice */}
-            <button className="w-full flex items-center justify-center gap-2.5 px-6 py-4 rounded-xl bg-primary text-primary-foreground font-semibold text-sm tracking-wide hover:brightness-110 active:scale-[0.97] transition-all box-glow cursor-pointer">
+            <button onClick={() => navigate("/listening")} className="w-full flex items-center justify-center gap-2.5 px-6 py-4 rounded-xl bg-primary text-primary-foreground font-semibold text-sm tracking-wide hover:brightness-110 active:scale-[0.97] transition-all box-glow cursor-pointer">
               <Mic className="w-4.5 h-4.5" strokeWidth={2} />
               Pay by Voice
             </button>
