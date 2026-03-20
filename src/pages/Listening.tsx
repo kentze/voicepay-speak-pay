@@ -113,8 +113,12 @@ const Listening = () => {
               });
             }
 
-            // Also check AI responses for confirm keyword (fallback)
+            // Check AI responses
             if (source === "ai") {
+              // Language detection
+              if ((message as any).language) {
+                setDetectedLanguage((message as any).language.toUpperCase().slice(0, 2));
+              }
               if (message.toLowerCase().includes("confirm")) {
                 handlePayment(message);
               }
