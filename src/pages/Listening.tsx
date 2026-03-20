@@ -252,15 +252,20 @@ const Listening = () => {
               {flashText || "Listening…"}
             </p>
             {!intentFlash && (
-              <p
-                className="mt-3 text-sm text-muted-foreground text-center"
+              <div
+                className="mt-3 flex flex-col items-center gap-1"
                 style={{
                   animation:
                     "fade-up 0.6s cubic-bezier(0.16,1,0.3,1) 0.25s both",
                 }}
               >
-                Say something like: &quot;Pay with Digital Garage&quot;
-              </p>
+                <p className="text-sm text-muted-foreground text-center">
+                  Say something like: &quot;Pay with Digital Garage&quot;
+                </p>
+                <p className="text-xs text-muted-foreground/60 text-center">
+                  Speak in any language
+                </p>
+              </div>
             )}
           </>
         )}
