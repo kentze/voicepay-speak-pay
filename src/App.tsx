@@ -11,6 +11,7 @@ import Listening from "./pages/Listening.tsx";
 import Confirming from "./pages/Confirming.tsx";
 import Processing from "./pages/Processing.tsx";
 import Success from "./pages/Success.tsx";
+import Receipt from "./pages/Receipt.tsx";
 
 const queryClient = new QueryClient();
 
@@ -25,7 +26,8 @@ const AnimatedRoutes = () => {
         <Route path="/listening" element={<Listening />} />
         <Route path="/confirming" element={<Confirming />} />
         <Route path="/processing" element={<Processing />} />
-        <Route path="/success" element={<Success />} />
+          <Route path="/success" element={<Success />} />
+          <Route path="/receipt" element={<Receipt />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </PageTransition>
