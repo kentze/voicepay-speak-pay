@@ -1,6 +1,10 @@
+import { useLanguage } from "@/context/LanguageContext";
+
 const sponsors = ["Digital Garage", "ElevenLabs", "VoiceOS", "RevenueCat", "Lovable"];
 
 const Sponsors = () => {
+  const { t } = useLanguage();
+
   return (
     <section
       className="py-16 px-6 border-t border-border/30"
@@ -8,14 +12,11 @@ const Sponsors = () => {
     >
       <div className="max-w-4xl mx-auto">
         <p className="text-center text-xs uppercase tracking-[0.25em] text-muted-foreground/60 mb-10">
-          Backed by
+          {t("sponsors.title")}
         </p>
         <div className="flex flex-wrap items-center justify-center gap-x-12 gap-y-4">
           {sponsors.map((name) => (
-            <span
-              key={name}
-              className="text-sm font-medium text-muted-foreground/50 tracking-wide"
-            >
+            <span key={name} className="text-sm font-medium text-muted-foreground/50 tracking-wide">
               {name}
             </span>
           ))}
