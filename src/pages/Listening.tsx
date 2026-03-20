@@ -23,6 +23,7 @@ const Listening = () => {
   const navigate = useNavigate();
   const [status, setStatus] = useState<AgentStatus>("connecting");
   const [intentFlash, setIntentFlash] = useState<IntentFlash>(null);
+  const [detectedLanguage, setDetectedLanguage] = useState("EN");
   const [flashText, setFlashText] = useState("");
   const conversationRef = useRef<Conversation | null>(null);
   const navigatedRef = useRef(false);
@@ -112,8 +113,12 @@ const Listening = () => {
               });
             }
 
-            // Also check AI responses for confirm keyword (fallback)
+            // Check AI responses
             if (source === "ai") {
+              // Language detection
+              if ((message as any).language) {
+                setDetectedLanguage((message as any).language.toUpperCase().slice(0, 2));
+              }
               if (message.toLowerCase().includes("confirm")) {
                 handlePayment(message);
               }
@@ -197,6 +202,14 @@ const Listening = () => {
         ) : (
           <>
             <div className="relative flex items-center justify-center mb-14">
+              {/* Language badge */}
+              <div
+                className="absolute -top-4 -right-4 z-20 px-2.5 py-0.5 rounded-full bg-primary text-white text-xs font-semibold tracking-wide"
+                style={{ fontSize: "12px", animation: "fade-in 0.8s ease-out 0.3s both" }}
+              >
+                {detectedLanguage}
+              </div>
+
               {!intentFlash &&
                 [0, 1, 2].map((i) => (
                   <div
@@ -239,15 +252,20 @@ const Listening = () => {
               {flashText || "Listening…"}
             </p>
             {!intentFlash && (
-              <p
-                className="mt-3 text-sm text-muted-foreground text-center"
+              <div
+                className="mt-3 flex flex-col items-center gap-1"
                 style={{
                   animation:
                     "fade-up 0.6s cubic-bezier(0.16,1,0.3,1) 0.25s both",
                 }}
               >
-                Say something like: &quot;Pay with Digital Garage&quot;
-              </p>
+                <p className="text-sm text-muted-foreground text-center">
+                  Say something like: &quot;Pay with Digital Garage&quot;
+                </p>
+                <p className="text-xs text-muted-foreground/60 text-center">
+                  Speak in any language
+                </p>
+              </div>
             )}
           </>
         )}
