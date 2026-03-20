@@ -23,6 +23,7 @@ const Listening = () => {
   const navigate = useNavigate();
   const [status, setStatus] = useState<AgentStatus>("connecting");
   const [intentFlash, setIntentFlash] = useState<IntentFlash>(null);
+  const [detectedLanguage, setDetectedLanguage] = useState("EN");
   const [flashText, setFlashText] = useState("");
   const conversationRef = useRef<Conversation | null>(null);
   const navigatedRef = useRef(false);
