@@ -25,6 +25,7 @@ const App = () => (
           <Route path="/listening" element={<Listening />} />
           <Route path="/confirming" element={<Confirming />} />
           <Route path="/processing" element={<Processing />} />
+          <Route path="/success" element={<Success />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
