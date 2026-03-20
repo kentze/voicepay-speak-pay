@@ -80,6 +80,14 @@ const Listening = () => {
         const conversation = await Conversation.startSession({
           agentId,
           connectionType: "webrtc",
+          overrides: {
+            agent: {
+              firstMessage: language === "JP"
+                ? "[warmly] こんにちは！VoicePayです。Digital Garage AppPayでお支払いのお手伝いをします。何をお支払いになりますか？"
+                : "[warmly] Hi! I'm VoicePay. I can process your Digital Garage payment. What would you like to pay for?",
+              language: language === "JP" ? "ja" : "en",
+            },
+          },
           onMessage: ({ message, source }) => {
             if (navigatedRef.current) return;
 
