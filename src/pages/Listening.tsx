@@ -25,7 +25,7 @@ const PAYMENT_KEYWORDS = [
 
 const Listening = () => {
   const navigate = useNavigate();
-  const { t } = useLanguage();
+  const { language, t } = useLanguage();
   const [status, setStatus] = useState<AgentStatus>("connecting");
   const [intentFlash, setIntentFlash] = useState<IntentFlash>(null);
   const [detectedLanguage, setDetectedLanguage] = useState("EN");
