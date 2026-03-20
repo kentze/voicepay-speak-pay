@@ -1,12 +1,17 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import AppShell from "@/components/AppShell";
 import useElevenLabsTTS from "@/hooks/useElevenLabsTTS";
 
-const CONFIRM_TEXT = "Got it! I'll process a payment of 3,200 yen for Kyoto Premium Matcha Kit via Digital Garage AppPay. Shall I confirm?";
+const FALLBACK_TEXT =
+  "Got it! I'll process a payment of 3,200 yen for Kyoto Premium Matcha Kit via Digital Garage AppPay. Shall I confirm?";
 
 const Confirming = () => {
   const navigate = useNavigate();
-  useElevenLabsTTS(CONFIRM_TEXT);
+  const location = useLocation();
+  const agentMessage: string =
+    (location.state as any)?.agentMessage || FALLBACK_TEXT;
+
+  useElevenLabsTTS(agentMessage);
 
   return (
     <AppShell>
@@ -23,16 +28,13 @@ const Confirming = () => {
             <span className="text-sm font-medium text-foreground">VoicePay AI</span>
           </div>
 
-          {/* Chat bubble */}
+          {/* Chat bubble — shows the agent's actual message */}
           <div
             className="rounded-2xl rounded-tl-md bg-card border border-border/60 px-5 sm:px-6 py-5"
             style={{ animation: "fade-up 0.6s cubic-bezier(0.16,1,0.3,1) 0.12s both" }}
           >
             <p className="text-[15px] text-foreground/90 leading-relaxed">
-              Got it! I'll process a payment of{" "}
-              <span className="font-semibold text-foreground">¥3,200</span> for{" "}
-              <span className="font-semibold text-foreground">Kyoto Premium Matcha Kit</span>{" "}
-              via Digital&nbsp;Garage&nbsp;AppPay. Shall I confirm?
+              {agentMessage}
             </p>
           </div>
 
