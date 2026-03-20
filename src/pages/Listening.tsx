@@ -36,34 +36,28 @@ const Listening = () => {
 
         const conversation = await Conversation.startSession({
           agentId,
-          onMessage: (message: any) => {
-            if (
-              message.type === "agent_response" &&
-              !navigatedRef.current
-            ) {
-              const text =
-                message.agent_response_event?.agent_response ??
-                message.message ??
-                "";
-              if (text.toLowerCase().includes("confirm")) {
+          connectionType: "webrtc",
+          onMessage: ({ message, source }) => {
+            if (source === "ai" && !navigatedRef.current) {
+              if (message.toLowerCase().includes("confirm")) {
                 navigatedRef.current = true;
                 endSession();
                 navigate("/confirming", {
-                  state: { agentMessage: text },
+                  state: { agentMessage: message },
                 });
               }
             }
           },
-          onError: (error: any) => console.error("Agent error:", error),
-          onStatusChange: (s: any) => {
+          onError: (message) => console.error("Agent error:", message),
+          onStatusChange: ({ status: s }) => {
             if (!cancelled) {
-              const mapped =
+              setStatus(
                 s === "connected"
                   ? "connected"
                   : s === "disconnected"
                     ? "disconnected"
-                    : "connecting";
-              setStatus(mapped as AgentStatus);
+                    : "connecting",
+              );
             }
           },
         });
