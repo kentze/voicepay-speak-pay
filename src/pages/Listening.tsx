@@ -12,17 +12,20 @@ type IntentFlash = null | "cancel" | "payment";
 const CANCEL_KEYWORDS = [
   "cancel", "stop", "go back", "never mind",
   "no thanks", "abort", "quit", "exit",
+  "キャンセル", "やめる", "戻る", "いいえ", "やめて",
 ];
 
 const PAYMENT_KEYWORDS = [
   "pay", "purchase", "buy", "confirm",
   "checkout", "proceed", "yes", "sure", "ok", "go ahead",
   "digital garage", "matcha",
+  "支払う", "購入", "確認", "はい", "お願い", "マッチャ",
+  "デジタルガレージ", "いいです", "よろしく",
 ];
 
 const Listening = () => {
   const navigate = useNavigate();
-  const { t } = useLanguage();
+  const { language, t } = useLanguage();
   const [status, setStatus] = useState<AgentStatus>("connecting");
   const [intentFlash, setIntentFlash] = useState<IntentFlash>(null);
   const [detectedLanguage, setDetectedLanguage] = useState("EN");
@@ -77,6 +80,14 @@ const Listening = () => {
         const conversation = await Conversation.startSession({
           agentId,
           connectionType: "webrtc",
+          overrides: {
+            agent: {
+              firstMessage: language === "JP"
+                ? "[warmly] こんにちは！VoicePayです。Digital Garage AppPayでお支払いのお手伝いをします。何をお支払いになりますか？"
+                : "[warmly] Hi! I'm VoicePay. I can process your Digital Garage payment. What would you like to pay for?",
+              language: language === "JP" ? "ja" : "en",
+            },
+          },
           onMessage: ({ message, source }) => {
             if (navigatedRef.current) return;
 
