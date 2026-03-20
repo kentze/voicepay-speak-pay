@@ -83,9 +83,14 @@ const Listening = () => {
           overrides: {
             agent: {
               firstMessage: language === "JP"
-                ? "[warmly] こんにちは！VoicePayです。Digital Garage AppPayでお支払いのお手伝いをします。何をお支払いになりますか？"
+                ? "[warmly] こんにちは！私はVoicePayです。Digital Garage AppPayを通じて、音声でお支払いのお手伝いをします。本日は何をお支払いになりますか？"
                 : "[warmly] Hi! I'm VoicePay. I can process your Digital Garage payment. What would you like to pay for?",
               language: language === "JP" ? "ja" : "en",
+            },
+            tts: {
+              voiceId: language === "JP"
+                ? "Xb7hH8MSUJpSbSDYk0k2"
+                : "cjVigY5qzO86Huf0OWal",
             },
           },
           onMessage: ({ message, source }) => {
