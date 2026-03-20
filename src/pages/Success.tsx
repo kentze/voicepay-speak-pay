@@ -92,6 +92,7 @@ const Success = () => {
   const navigate = useNavigate();
   const canvasRef = useRef<HTMLCanvasElement>(null);
   useConfetti(canvasRef);
+  useElevenLabsTTS(SUCCESS_TEXT);
 
   const now = new Date();
   const timestamp =
