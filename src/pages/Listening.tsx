@@ -3,12 +3,27 @@ import { useNavigate } from "react-router-dom";
 import { Mic, Loader2 } from "lucide-react";
 import { Conversation } from "@11labs/client";
 import AppShell from "@/components/AppShell";
+import { toast } from "sonner";
 
 type AgentStatus = "connecting" | "connected" | "disconnected";
+type IntentFlash = null | "cancel" | "payment";
+
+const CANCEL_KEYWORDS = [
+  "cancel", "stop", "go back", "never mind",
+  "no thanks", "abort", "quit", "exit",
+];
+
+const PAYMENT_KEYWORDS = [
+  "pay", "purchase", "buy", "confirm",
+  "checkout", "proceed", "yes", "sure", "ok", "go ahead",
+  "digital garage", "matcha",
+];
 
 const Listening = () => {
   const navigate = useNavigate();
   const [status, setStatus] = useState<AgentStatus>("connecting");
+  const [intentFlash, setIntentFlash] = useState<IntentFlash>(null);
+  const [flashText, setFlashText] = useState("");
   const conversationRef = useRef<Conversation | null>(null);
   const navigatedRef = useRef(false);
 
@@ -20,6 +35,33 @@ const Listening = () => {
     }
     conversationRef.current = null;
   }, []);
+
+  const handleCancel = useCallback(() => {
+    if (navigatedRef.current) return;
+    navigatedRef.current = true;
+    setIntentFlash("cancel");
+    setFlashText("Payment cancelled");
+    endSession();
+    setTimeout(() => navigate("/demo"), 1000);
+  }, [endSession, navigate]);
+
+  const handlePayment = useCallback(
+    (agentMessage?: string) => {
+      if (navigatedRef.current) return;
+      navigatedRef.current = true;
+      setIntentFlash("payment");
+      setFlashText("Got it!");
+      endSession();
+      setTimeout(
+        () =>
+          navigate("/confirming", {
+            state: { agentMessage },
+          }),
+        500,
+      );
+    },
+    [endSession, navigate],
+  );
 
   useEffect(() => {
     let cancelled = false;
@@ -38,17 +80,46 @@ const Listening = () => {
           agentId,
           connectionType: "webrtc",
           onMessage: ({ message, source }) => {
-            if (source === "ai" && !navigatedRef.current) {
+            if (navigatedRef.current) return;
+
+            if (source === "user") {
+              const text = message.toLowerCase();
+
+              const wantToCancel = CANCEL_KEYWORDS.some((w) =>
+                text.includes(w),
+              );
+              if (wantToCancel) {
+                handleCancel();
+                return;
+              }
+
+              const wantsToPay = PAYMENT_KEYWORDS.some((w) =>
+                text.includes(w),
+              );
+              if (wantsToPay) {
+                handlePayment();
+                return;
+              }
+
+              // Unrelated intent — show toast, let agent handle it
+              toast("I can only help with payments", {
+                style: {
+                  background: "hsl(45 93% 20%)",
+                  color: "hsl(45 93% 80%)",
+                  border: "1px solid hsl(45 80% 30%)",
+                },
+                duration: 3000,
+              });
+            }
+
+            // Also check AI responses for confirm keyword (fallback)
+            if (source === "ai") {
               if (message.toLowerCase().includes("confirm")) {
-                navigatedRef.current = true;
-                endSession();
-                navigate("/confirming", {
-                  state: { agentMessage: message },
-                });
+                handlePayment(message);
               }
             }
           },
-          onError: (message) => console.error("Agent error:", message),
+          onError: (error) => console.error("Agent error:", error),
           onStatusChange: ({ status: s }) => {
             if (!cancelled) {
               setStatus(
@@ -79,13 +150,33 @@ const Listening = () => {
       cancelled = true;
       endSession();
     };
-  }, [navigate, endSession]);
+  }, [navigate, endSession, handleCancel, handlePayment]);
+
+  const micBorderColor =
+    intentFlash === "cancel"
+      ? "border-red-500/80"
+      : intentFlash === "payment"
+        ? "border-emerald-400/80"
+        : "border-primary/40";
+
+  const micBgColor =
+    intentFlash === "cancel"
+      ? "bg-red-500/20"
+      : intentFlash === "payment"
+        ? "bg-emerald-400/20"
+        : "bg-primary/15";
+
+  const micIconColor =
+    intentFlash === "cancel"
+      ? "text-red-400"
+      : intentFlash === "payment"
+        ? "text-emerald-400"
+        : "text-primary";
 
   return (
     <AppShell>
       <div className="flex flex-col items-center justify-center px-6 min-h-[calc(100vh-57px)]">
         {status === "connecting" ? (
-          /* Connecting state */
           <div
             className="flex flex-col items-center gap-6"
             style={{
@@ -104,48 +195,60 @@ const Listening = () => {
             </p>
           </div>
         ) : (
-          /* Connected — pulsing mic */
           <>
             <div className="relative flex items-center justify-center mb-14">
-              {[0, 1, 2].map((i) => (
-                <div
-                  key={i}
-                  className="absolute w-40 h-40 rounded-full border border-primary/25"
-                  style={{
-                    animation: `mic-ring 2.8s cubic-bezier(0.16, 1, 0.3, 1) infinite ${i * 0.7}s`,
-                  }}
-                />
-              ))}
+              {!intentFlash &&
+                [0, 1, 2].map((i) => (
+                  <div
+                    key={i}
+                    className="absolute w-40 h-40 rounded-full border border-primary/25"
+                    style={{
+                      animation: `mic-ring 2.8s cubic-bezier(0.16, 1, 0.3, 1) infinite ${i * 0.7}s`,
+                    }}
+                  />
+                ))}
 
               <div
-                className="relative z-10 w-28 h-28 rounded-full bg-primary/15 border border-primary/40 flex items-center justify-center box-glow-lg"
-                style={{ animation: "mic-pulse 2.5s ease-in-out infinite" }}
+                className={`relative z-10 w-28 h-28 rounded-full ${micBgColor} border ${micBorderColor} flex items-center justify-center transition-all duration-300`}
+                style={
+                  !intentFlash
+                    ? { animation: "mic-pulse 2.5s ease-in-out infinite" }
+                    : undefined
+                }
               >
                 <Mic
-                  className="w-10 h-10 text-primary"
+                  className={`w-10 h-10 ${micIconColor} transition-colors duration-300`}
                   strokeWidth={1.5}
                 />
               </div>
             </div>
 
             <p
-              className="text-xl font-semibold text-foreground tracking-tight"
+              className={`text-xl font-semibold tracking-tight transition-colors duration-300 ${
+                intentFlash === "cancel"
+                  ? "text-red-400"
+                  : intentFlash === "payment"
+                    ? "text-emerald-400"
+                    : "text-foreground"
+              }`}
               style={{
                 animation:
                   "fade-up 0.6s cubic-bezier(0.16,1,0.3,1) 0.15s both",
               }}
             >
-              Listening…
+              {flashText || "Listening…"}
             </p>
-            <p
-              className="mt-3 text-sm text-muted-foreground text-center"
-              style={{
-                animation:
-                  "fade-up 0.6s cubic-bezier(0.16,1,0.3,1) 0.25s both",
-              }}
-            >
-              Say something like: "Pay with Digital Garage"
-            </p>
+            {!intentFlash && (
+              <p
+                className="mt-3 text-sm text-muted-foreground text-center"
+                style={{
+                  animation:
+                    "fade-up 0.6s cubic-bezier(0.16,1,0.3,1) 0.25s both",
+                }}
+              >
+                Say something like: &quot;Pay with Digital Garage&quot;
+              </p>
+            )}
           </>
         )}
 
