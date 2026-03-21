@@ -12,6 +12,7 @@ import Confirming from "./pages/Confirming.tsx";
 import Processing from "./pages/Processing.tsx";
 import Success from "./pages/Success.tsx";
 import Receipt from "./pages/Receipt.tsx";
+import Subscriptions from "./pages/Subscriptions.tsx";
 
 const queryClient = new QueryClient();
 
@@ -28,6 +29,7 @@ const AnimatedRoutes = () => {
         <Route path="/processing" element={<Processing />} />
           <Route path="/success" element={<Success />} />
           <Route path="/receipt" element={<Receipt />} />
+          <Route path="/subscriptions" element={<Subscriptions />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </PageTransition>
