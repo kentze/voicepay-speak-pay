@@ -29,6 +29,7 @@ const AnimatedRoutes = () => {
         <Route path="/processing" element={<Processing />} />
           <Route path="/success" element={<Success />} />
           <Route path="/receipt" element={<Receipt />} />
+          <Route path="/subscriptions" element={<Subscriptions />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </PageTransition>

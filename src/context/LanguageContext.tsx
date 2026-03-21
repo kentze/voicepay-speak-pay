@@ -130,6 +130,33 @@ const translations: Record<string, Record<Language, string>> = {
   "receipt.date": { EN: "Date", JP: "日付" },
   "receipt.time": { EN: "Time", JP: "時刻" },
 
+  // Subscriptions
+  "subs.title": { EN: "My Subscriptions", JP: "マイサブスクリプション" },
+  "subs.monthly": { EN: "Monthly", JP: "月額" },
+  "subs.oneTime": { EN: "One-time", JP: "買い切り" },
+  "subs.active": { EN: "Active", JP: "有効" },
+  "subs.gemsMonth": { EN: "gems / month", JP: "ジェム / 月" },
+  "subs.gems": { EN: "gems", JP: "ジェム" },
+  "subs.upgrade": { EN: "Upgrade", JP: "アップグレード" },
+  "subs.downgrade": { EN: "Downgrade", JP: "ダウングレード" },
+  "subs.cancelSub": { EN: "Cancel Subscription", JP: "サブスクリプション解約" },
+  "subs.upgradedTo": {
+    EN: "Subscription upgraded to {tier} gems/month",
+    JP: "サブスクリプションを{tier}ジェム/月にアップグレードしました",
+  },
+  "subs.downgradedTo": {
+    EN: "Subscription downgraded to {tier} gems/month",
+    JP: "サブスクリプションを{tier}ジェム/月にダウングレードしました",
+  },
+  "subs.cancelled": {
+    EN: "Subscription canceled",
+    JP: "サブスクリプションを解約しました",
+  },
+  "subs.maxTier": { EN: "Already at max tier", JP: "最大プランです" },
+  "subs.minTier": { EN: "Already at min tier", JP: "最小プランです" },
+  "subs.empty": { EN: "No active subscriptions", JP: "有効なサブスクリプションはありません" },
+  "subs.browseStore": { EN: "Browse store", JP: "ストアを見る" },
+
   // Nav
   "nav.poweredBy": {
     EN: "Powered by Digital Garage",
